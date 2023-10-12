@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import utils from '@/util/utils'
 import APIs from '@/api/serverAPI'
 const data = ref()
@@ -27,7 +27,6 @@ const getStudentsData = async () => {
     const selectedObjects = utils.getRandomObjectsFromArray(resultData, 50)
     data.value = selectedObjects
     changeText(selectedObjects)
-    console.log(selectedObjects)
   }
 }
 const getRandomPerson = () => {

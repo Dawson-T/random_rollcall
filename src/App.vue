@@ -9,17 +9,18 @@
     <div class="overlay" ref="overlayDom">
       <div class="modal">
         <!-- <h2 class="modal_title">随机点名</h2> -->
-        <RollCall ref="RollCallComp" />
+        <!-- <RollCall ref="RollCallComp" /> -->
+        <RollCallPro />
         <button class="cancel_button" @click="cancel_button">
           <img class="cancel_svg" src="./assets/cancel.svg" alt="" />
         </button>
       </div>
     </div>
-    <!-- <Count /> -->
     <div class="button_container">
       <button class="btn btn__primary" @click="getRandomPerson">
         开始点名
       </button>
+      <button class="btn btn__primary">多人点名</button>
     </div>
     <footer class="copyRight">
       <p>&copy;{{ currentYear }}. {{ authorName }}</p>
@@ -30,7 +31,7 @@
 <script setup>
 import NameRound from '@/components/NameRound.vue'
 import RollCall from './components/RollCall.vue'
-import Count from './components/Count.vue'
+import RollCallPro from './components/RollCallPro.vue'
 import { ref, onMounted } from 'vue'
 import APIs from '@/api/serverAPI'
 const authorName = '邓森'
@@ -50,12 +51,11 @@ onMounted(() => {
 // 总人数
 const getTotalData = async () => {
   const res = await APIs.getTotal()
-  console.log(res.data[0].total)
   studentNumber.value = res.data[0].total
 }
 // 点名
 const getRandomPerson = () => {
-  RollCallComp.value.getStudentsData()
+  // RollCallComp.value.getStudentsData()
   overlayDom.value.style.display = 'flex'
 }
 // 关闭
@@ -129,8 +129,8 @@ p {
   font-size: 4rem;
 }
 .cancel_svg {
-  width: 20%;
-  height: 30%;
+  width: 15%;
+  height: 10%;
 }
 .overlay {
   position: relative;
