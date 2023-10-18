@@ -1,40 +1,43 @@
 <template>
-  <!-- <div class="container_call">
-    <div class="name">
-      <h1 class="text-fade"></h1>
-    </div>
-  </div> -->
-  <div class="call_container" ref="call_container">
-    <div class="card">丁扬1号</div>
-    <div class="card">丁扬2号</div>
-    <div class="card">丁扬3号</div>
-    <div class="card">丁扬4号</div>
-    <div class="card">丁扬1号</div>
-    <div class="card">丁扬2号</div>
-    <div class="card">丁扬3号</div>
-    <div class="card">丁扬4号</div>
-    <div class="card">丁扬1号</div>
-    <div class="card">丁扬2号</div>
-    <div class="card">丁扬3号</div>
-    <div class="card">丁扬4号</div>
-    <div class="card">丁扬1号</div>
-    <div class="card">丁扬2号</div>
-    <div class="card">丁扬3号</div>
-    <div class="card">丁扬4号</div>
+  <div v-show="isStart" class="call_container">
+    <div class="card" v-for="item in arrList">{{ item }}</div>
   </div>
 
-  <!-- <Count /> -->
-  <!-- <button class="btn btn__primary">开始点名</button> -->
+  <div v-if="!isStart">
+    <Count @count-changed="handleCountChange" />
+    <button class="btn btn__primary" @click="startRandomCall">开始点名</button>
+  </div>
 </template>
 
-<script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+<script setup>
+import { ref, onMounted } from 'vue'
 import Count from '@/components/Count.vue'
-let container_call = ref()
+import Util from '@/util/utils'
+import APIs from '@/api/serverAPI'
+let isStart = ref(false)
+// 抽取人数
+let stuNum = ref(2)
+// 抽取最终结果
+let arrList = ref([])
+let arr = []
+
+const getStudentsData = async () => {
+  const res = await APIs.getStudents()
+  if (res.code === 200) {
+    arr = res.data
+  }
+}
+const startRandomCall = () => {
+  isStart.value = true
+
+  arrList.value = Util.getRandomObjectsFromArray(arr, stuNum.value)
+}
+// 子传父
+let handleCountChange = (count) => {
+  stuNum.value = count
+}
 onMounted(() => {
-  nextTick(() => {
-    console.log(container_call)
-  })
+  getStudentsData()
 })
 </script>
 
@@ -65,27 +68,22 @@ onMounted(() => {
   grid-row: 5 / 6;
   color: #9baacf;
 }
-.btn__secondary:hover {
-  color: #6d5dfc;
-}
-.btn__secondary:active {
-  box-shadow: inset 0.2rem 0.2rem 0.5rem #c8d0e7,
-    inset -0.2rem -0.2rem 0.5rem #ffffff;
-}
+
+
 .call_container {
   margin-top: 5%;
   width: 100%;
   height: 75%;
-  display: flex;
-  flex-wrap: wrap; /* 当卡片数量超过一行时自动换行 */
-  justify-content: space-between; /* 在每排之间均匀分布卡片 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
 }
 .card {
-  width: 20%;
-  height: 10%;
+  width: 100%;
+  height: 100%;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 10px;
+
   display: flex;
   align-items: center;
   justify-content: center;

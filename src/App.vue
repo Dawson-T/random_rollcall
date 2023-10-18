@@ -4,14 +4,13 @@
       <span>总人数：</span
       ><span class="studentNumber">{{ studentNumber }} </span> 人
     </div>
-    <!-- <RollCall /> -->
     <NameRound />
     <div class="overlay" ref="overlayDom">
       <div class="modal">
         <!-- <h2 class="modal_title">随机点名</h2> -->
-        <!-- <RollCall ref="RollCallComp" /> -->
-        <RollCallPro />
-        <button class="cancel_button" @click="cancel_button">
+        <RollCall ref="RollCallComp" v-if="isOnly" />
+        <RollCallPro ref="RollCallsComp" v-else />
+        <button class="cancel_button" @click="cancel_button()">
           <img class="cancel_svg" src="./assets/cancel.svg" alt="" />
         </button>
       </div>
@@ -20,7 +19,9 @@
       <button class="btn btn__primary" @click="getRandomPerson">
         开始点名
       </button>
-      <button class="btn btn__primary">多人点名</button>
+      <button class="btn btn__primarys" @click="getRandomPersons">
+        多人点名
+      </button>
     </div>
     <footer class="copyRight">
       <p>&copy;{{ currentYear }}. {{ authorName }}</p>
@@ -31,13 +32,16 @@
 <script setup>
 import NameRound from '@/components/NameRound.vue'
 import RollCall from './components/RollCall.vue'
-import RollCallPro from './components/RollCallPro.vue'
+import RollCallPro from '@/components/RollCallPro.vue'
 import { ref, onMounted } from 'vue'
 import APIs from '@/api/serverAPI'
 const authorName = '邓森'
 let studentNumber = ref()
 const overlayDom = ref()
 const RollCallComp = ref()
+const RollCallsComp = ref()
+// 默认单人点名
+let isOnly = ref(true)
 const currentYear = new Date().getFullYear()
 onMounted(() => {
   // 引入粒子效果
@@ -55,13 +59,20 @@ const getTotalData = async () => {
 }
 // 点名
 const getRandomPerson = () => {
-  // RollCallComp.value.getStudentsData()
+  RollCallComp.value.getStudentsData()
   overlayDom.value.style.display = 'flex'
 }
+// 多人点名
+const getRandomPersons = () => {
+  isOnly.value = false
+  overlayDom.value.style.display = 'flex'
+}
+
 // 关闭
 const cancel_button = () => {
-  RollCallComp.value.cleanIntervalHandler()
+  isOnly.value ? RollCallComp.value.cleanIntervalHandler() : ''
   overlayDom.value.style.display = 'none'
+  isOnly.value = true
 }
 </script>
 
@@ -97,6 +108,14 @@ const cancel_button = () => {
   box-shadow: inset 0.2rem 0.2rem 1rem #8abdff,
     inset -0.2rem -0.2rem 1rem #5b0eeb, 0.3rem 0.3rem 0.6rem #c8d0e7;
   color: #e4ebf5;
+}
+.btn__primarys {
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+  background: #4ea8de; /* 浅蓝绿色 */
+  box-shadow: inset 0.2rem 0.2rem 1rem #89c6e0,
+    inset -0.2rem -0.2rem 1rem #328eb1, 0.3rem 0.3rem 0.6rem #b3d9e4; /* 阴影颜色调整 */
+  color: #204051; /* 深青色 */
 }
 .btn__primary:hover {
   color: #ffffff;
