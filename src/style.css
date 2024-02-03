@@ -21,17 +21,12 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  min-width: 1200px;
   min-height: 100vh;
   background: radial-gradient(circle at center, rgb(228, 246, 239), rgba(92, 202, 238, 0.41));
-  /* 这里使用了radial-gradient，circle表示渐变以圆形方式，at center表示以屏幕中心为起点，#ff3366是起始颜色，#3333ff是结束颜色 */
-  margin: 0;
-  height: 100vh;
-  overflow: hidden;
-
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 
@@ -59,16 +54,6 @@ button:focus-visible {
 
 
 
-/* #app {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-} */
 
 @media (prefers-color-scheme: light) {
   :root {

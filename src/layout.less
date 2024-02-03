@@ -1,0 +1,56 @@
+/* flex垂直布局 */
+.layout_v {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+/* 水平布局 */
+.layout_h {
+  display: flex;
+  flex-direction: row;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+.layout_c {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.layout_hc {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+.layout_vc {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    flex-shrink: 0;
+  }
+}
+
+/* 相对布局 */
+.layout_r {
+  position: relative;
+
+  > * {
+    position: absolute;
+  }
+}

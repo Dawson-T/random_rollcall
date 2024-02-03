@@ -30,39 +30,5 @@ class Random {
     }
 }
 
-// 类创建点名器
-// class RandomPicker {
-//     constructor(studentList) {
-//         this.studentList = studentList;
-//         this.observers = [];
-//         this.isPicking = false;
-//         this.interval = null;
-//     }
-//     notifyObservers(student) {
-//         this.observers.forEach(observer => observer(student));
-//     }
-//     // 开始点名
-//     startPicking() {
-//         if (!this.isPicking) {
-//             this.isPicking = true;
-//             this.interval = setInterval(() => {
-//                 const randomIndex = Math.floor(Math.random() * this.studentList.length);
-//                 const selectedStudent = this.studentList[randomIndex];
-//                 this.notifyObservers(selectedStudent);
-//             }, 100);
-//         }
-//     }
-//     // 停止点名
-//     stopPicking() {
-//         if (this.isPicking) {
-//             this.isPicking = false;
-//             clearInterval(this.interval);
-//         }
-//     }
-//     // 添加监听对象
-//     addObserver(observer) {
-//         this.observers.push(observer);
-//     }
-// }
 
-export default Random ;
+export default Random;

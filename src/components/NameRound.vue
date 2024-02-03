@@ -2,16 +2,9 @@
   <div id="app">
     <svg :width="width" :height="height">
       <a class="fontA" v-for="(tag, index) in tags" :key="`tag-${index}`">
-        <text
-          :id="tag.id"
-          :x="tag.x"
-          :y="tag.y"
-          :font-size="20 * (600 / (600 - tag.z))"
-          :fill-opacity="(400 + tag.z) / 600"
-          @mousemove="listenerMove($event)"
-          @mouseout="listenerOut($event)"
-          @click="clickToPage"
-        >
+        <text :id="tag.id" :x="tag.x" :y="tag.y" :font-size="20 * (600 / (600 - tag.z))"
+          :fill-opacity="(400 + tag.z) / 600" @mousemove="listenerMove($event)" @mouseout="listenerOut($event)"
+          @click="clickToPage">
           {{ tag.text }}
         </text>
       </a>
@@ -37,6 +30,7 @@ export default {
       data: [],
       timer: null,
       timer1: null, // 这是定时器
+      resultData: [],
     }
   },
   computed: {
@@ -129,8 +123,10 @@ export default {
     async getStudentsData() {
       const res = await APIs.getStudents()
       if (res.code === 200) {
-        let resultData = res.data
-        const selectedObjects = utils.getRandomObjectsFromArray(resultData, 50)
+        if (this.resultData.length < 50) {
+          this.resultData = utils.toNameArray(res.data)
+        }
+        const selectedObjects = utils.getRandomObjectsFromArray(this.resultData, 50)
         this.data = selectedObjects
       }
     },
@@ -141,7 +137,7 @@ export default {
       }, 1000 * 60)
     },
     // 点击事件
-    clickToPage() {},
+    clickToPage() { },
   },
   mounted() {
     this.runTags()
@@ -162,6 +158,7 @@ export default {
   fill: #60cae9;
   font-weight: bold;
 }
+
 .fontA:hover {
   fill: #ffffff;
   cursor: pointer;

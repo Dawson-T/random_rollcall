@@ -1,7 +1,7 @@
 import axios from 'axios'
 //创建axios实例
 let http = axios.create({
-  baseURL: 'http://back.olrando.cn',
+  baseURL: 'http://callback.olrando.cn',
   timeout: 10000,
 })
 //请求拦截器
